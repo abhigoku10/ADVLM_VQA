@@ -41,10 +41,10 @@ def main(image_path, questions):
     
     final_dict = {
                     "filename" : os.path.basename(image_path),
-                	"base info" : {"width" : w, "height" : h},
+                    "base info" : {"width" : w, "height" : h},
                     "image tags" : json_dict,
                     "object attributes" : "NA", 
-	                "image descrption" : "",
+	            "image descrption" : "",
                 }
     json_object = json.dumps(final_dict, indent=4)
     json_filename = os.path.splitext(os.path.basename(image_path))[0] + ".json"
