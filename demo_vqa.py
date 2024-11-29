@@ -28,7 +28,7 @@ def main(image_path, questions):
     vision_tower.to(device='cuda')
 
     image = Image.open(image_path).convert('RGB')
-    
+    w, h = image.size
     image_tensor = vision_tower.image_processor.preprocess(image, return_tensors='pt')['pixel_values'].half().cuda()
 
     json_dict = {}
@@ -39,7 +39,14 @@ def main(image_path, questions):
         print("\n")
         json_dict[question] = output.strip('</s>')
     
-    json_object = json.dumps(json_dict, indent=4)
+    final_dict = {
+                    "filename" : os.path.basename(image_path),
+                	"base info" : {"width", w, "height", h},
+                    "image tags" : json_dict,
+                    "object attributes" : "NA", 
+	                "image descrption" : " ",
+                }
+    json_object = json.dumps(final_dict, indent=4)
     json_filename = os.path.splitext(os.path.basename(image_path))[0] + ".json"
     with open(json_filename, "w") as outfile:
         outfile.write(json_object)
